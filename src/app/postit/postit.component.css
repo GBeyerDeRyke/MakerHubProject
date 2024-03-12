@@ -1,0 +1,61 @@
+.example-box {
+  width: 125px;
+  height: 125px;
+  border: solid 1px #ccc;
+  color: rgba(0, 0, 0, 0.87);
+  cursor: move;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background: #fff;
+  border-radius: 4px;
+  margin-right: 25px;
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box;
+  padding: 10px;
+  transition: box-shadow 200ms cubic-bezier(0, 0, 0.2, 1);
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2),
+  0 2px 2px 0 rgba(0, 0, 0, 0.14),
+  0 1px 5px 0 rgba(0, 0, 0, 0.12);
+}
+
+.example-box:active {
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+  0 8px 10px 1px rgba(0, 0, 0, 0.14),
+  0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.example-boundary {
+  width: 900px;
+  height: 900px;
+  max-width: 100%;
+  border: dotted #ccc 2px;
+  position: relative;
+  margin: 0 auto; /* Center horizontally */
+}
+
+.left-buttons {
+
+  z-index: 1; /* Add this line */
+}
+
+.left-buttons button {
+  margin-bottom: 10px;
+}
+
+.calendar{
+  width: 100%;
+  height: 100%;
+  border-collapse: collapse;
+}
+
+tr>td {
+  border:black solid 1px;
+  width: 12%;
+  height: 18%;
+  text-align: left;
+  vertical-align: top;
+}
+

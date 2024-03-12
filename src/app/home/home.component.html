@@ -1,0 +1,9 @@
+<div class="left-buttons">
+  <button (click)="createSchedule()">CREATE</button>
+  <div *ngFor="let postit of postits; let i = index" class="postit" (click)="openPostit(postit)">
+    <i class="far fa-sticky-note"></i>
+    <button (click)="deleteSchedule(i)">DELETE</button>
+  </div>
+</div>
+
+
