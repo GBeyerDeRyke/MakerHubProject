@@ -28,7 +28,7 @@
 }
 
 .example-boundary {
-  width: 900px;
+  width: 1500px;
   height: 900px;
   max-width: 100%;
   border: dotted #ccc 2px;
@@ -57,5 +57,11 @@ tr>td {
   height: 18%;
   text-align: left;
   vertical-align: top;
+}
+
+.example-box.selected {
+  /* Styles for selected state */
+  border-color: blue;
+  /* Add any other styles for selected state */
 }
 

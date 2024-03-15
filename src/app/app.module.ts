@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import {CdkDrag} from "@angular/cdk/drag-drop";
+import {CdkDrag, DragDropModule} from "@angular/cdk/drag-drop";
 import { HomeComponent } from './home/home.component';
 import { PostitComponent } from './postit/postit.component';
 import { Page404Component } from './page404/page404.component';
@@ -26,7 +26,8 @@ import {ReactiveFormsModule} from "@angular/forms";
         BrowserModule,
         AppRoutingModule,
         CdkDrag,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        DragDropModule
     ],
   providers: [],
   bootstrap: [AppComponent]

@@ -15,8 +15,8 @@ export class HomeComponent {
   constructor(private router: Router) {} // Inject Router service
 
   createSchedule() {
-    const postit = new PostitComponent(); // Create a new instance of PostitComponent
-    this.postits.push(postit); // Add it to the array of postits
+    /*const postit = new PostitComponent(); // Create a new instance of PostitComponent
+    this.postits.push(postit); // Add it to the array of postits*/
   }
 
   deleteSchedule(index: number) {

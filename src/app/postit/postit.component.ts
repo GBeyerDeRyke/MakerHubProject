@@ -1,25 +1,46 @@
-import { Component } from '@angular/core';
-import {Day} from "./Day";
-
+import { Component, ElementRef } from '@angular/core';
+import { Day } from './Day';
+import {Postit} from "./postit";
 
 @Component({
   selector: 'app-postit',
   templateUrl: './postit.component.html',
-  styleUrl: './postit.component.css'
+  styleUrls: ['./postit.component.css']
 })
 export class PostitComponent {
   currentMonth = new Date().getMonth();
   currentYear = new Date().getFullYear();
   startOfWeek = 0; // Define startOfWeek at the class level
+  postitElements: HTMLElement[] = []; // Store references to the dynamically created elements
+  postits : Postit[] = [];
+
 
   create() {
-    // Add your logic for the create button action here
-    console.log('CREATE button clicked');
+    const postit: Postit = {
+      id: -1,
+      title: 'Bob',
+      description: 'Languleur',
+      x: 300,
+      y: 300,
+      createdMonth: this.currentMonth
+    };
+    while (this.postits.find(p => p.id === postit.id)) {
+      postit.id--;
+    }
+    this.postits.push(postit);
+    console.log(postit.createdMonth)
   }
 
-  delete() {
-    // Add your logic for the delete button action here
-    console.log('DELETE button clicked');
+
+
+  delete(id : number) {
+    this.postits = this.postits.filter(p => p.id !== id);
+  }
+
+  toggleSelection(postit: HTMLElement) {
+    // Toggle selection state by adding/removing a class
+    postit.classList.toggle('selected');
+    console.log('Post-it toggled:', postit);
   }
 
   nextMonth() {
@@ -28,7 +49,6 @@ export class PostitComponent {
       this.currentMonth = 0;
       this.currentYear++;
     }
-    // Optionally, you can update any data or re-fetch data for the new month
     console.log('Next month button clicked. New month:', this.currentMonth + 1, 'Year:', this.currentYear);
   }
 
@@ -38,10 +58,8 @@ export class PostitComponent {
       this.currentMonth = 11;
       this.currentYear--;
     }
-    // Optionally, you can update any data or re-fetch data for the new month
     console.log('Previous month button clicked. New month:', this.currentMonth + 1, 'Year:', this.currentYear);
   }
-
 
   get days(): Day[] {
     return this.getDaysForMonth(this.currentMonth, this.currentYear);
@@ -57,6 +75,8 @@ export class PostitComponent {
         date: new Date(date),
         name: date.toLocaleDateString('en-US', { weekday: 'long' }),
         isCurrentMonth: date.getMonth() === month,
+        month: this.currentMonth
+
       };
       days.push(day);
     }
@@ -81,5 +101,11 @@ export class PostitComponent {
       }
     }
     return weeks;
+  }
+  editTitle(postit: Postit) {
+    const newTitle = prompt('Enter new title for the post-it:', postit.title);
+    if (newTitle !== null && newTitle !== '') {
+      postit.title = newTitle;
+    }
   }
 }
