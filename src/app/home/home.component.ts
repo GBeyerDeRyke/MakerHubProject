@@ -1,6 +1,6 @@
 import { Component, Output, EventEmitter } from '@angular/core';
-import {PostitComponent} from "../postit/postit.component";
 import {Router} from "@angular/router";
+import {Schedule} from "../models/schedule";
 
 @Component({
   selector: 'app-home',
@@ -9,22 +9,38 @@ import {Router} from "@angular/router";
 })
 export class HomeComponent {
   @Output() createPostit: EventEmitter<void> = new EventEmitter<void>();
-  @Output() deletePostit: EventEmitter<void> = new EventEmitter<void>();
+  @Output() deletePostit: EventEmitter<number> = new EventEmitter<number>();
+  schedules: {id : number,text: string }[] = [];
+  nextId: number = 1;
 
-  postits: PostitComponent[] = [];
-  constructor(private router: Router) {} // Inject Router service
+  constructor(private router: Router) {}
 
   createSchedule() {
-    /*const postit = new PostitComponent(); // Create a new instance of PostitComponent
-    this.postits.push(postit); // Add it to the array of postits*/
+    const text = prompt("Enter schedule text:");
+    if (text !== null) {
+      const schedule = {
+        id: this.nextId++,
+        text: text
+      };
+      this.schedules.push(schedule);
+    }
   }
 
-  deleteSchedule(index: number) {
-    this.postits.splice(index, 1); // Remove the postit at the given index
+  deleteSchedule(id : number) {
+    this.schedules.splice(id, 1);
   }
 
-  openPostit(postit: PostitComponent) {
-    // Navigate to the postit component
+
+  editScheduleText(index: number) {
+    const newText = prompt("Enter new text:");
+    if (newText !== null) {
+      this.schedules[index].text = newText;
+    }
+  }
+
+  openPostit(schedule: { id: number }) {
     this.router.navigate(['/postit']);
   }
+
+
 }

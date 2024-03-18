@@ -28,6 +28,7 @@ import {ReactiveFormsModule} from "@angular/forms";
         CdkDrag,
         ReactiveFormsModule,
         DragDropModule
+
     ],
   providers: [],
   bootstrap: [AppComponent]

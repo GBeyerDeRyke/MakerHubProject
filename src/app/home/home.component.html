@@ -1,9 +1,12 @@
 <div class="left-buttons">
   <button (click)="createSchedule()">CREATE</button>
-  <div *ngFor="let postit of postits; let i = index" class="postit" (click)="openPostit(postit)">
-    <i class="far fa-sticky-note"></i>
-    <button (click)="deleteSchedule(i)">DELETE</button>
-  </div>
 </div>
 
-
+<div>
+  <div *ngFor="let schedule of schedules; let i = index" class="schedule">
+    <button class="delete" (click)="deleteSchedule(i)"> X </button>
+    <div>
+      <span>{{ schedule.text }}</span></div>
+      <div><button class="modify" (click)="editScheduleText(i); $event.stopPropagation()">MODIFY</button></div>
+  </div>
+</div>

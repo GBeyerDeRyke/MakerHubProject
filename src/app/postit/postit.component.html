@@ -24,17 +24,13 @@
     </tbody>
   </table>
 
-  <!--<div *ngFor="let postit of postits" [style.transform]="'translate3d('+postit.x+'px, '+postit.y+'px, 0px);'" class="example-box" cdkDragBoundary=".example-boundary" cdkDrag>
-    {{postit.title}}
-    <button (click)="delete(postit.id)">DELETE</button>
-  </div>-->
-
 
   <ng-container *ngFor="let postit of postits">
   <div *ngIf="postit.createdMonth == currentMonth" [style.transform]="'translate3d('+postit.x+'px, '+postit.y+'px, 0px);'"
        class="example-box" cdkDragBoundary=".example-boundary" cdkDrag (dblclick)="editTitle(postit)">
       {{postit.title}}
-      <button (click)="delete(postit.id)">DELETE</button>
+
+      <button class = delete (click)="delete(postit.id)">X</button>
   </div>
   </ng-container>
 </div>

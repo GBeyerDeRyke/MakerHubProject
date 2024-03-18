@@ -1,6 +1,6 @@
 import { Component, ElementRef } from '@angular/core';
-import { Day } from './Day';
-import {Postit} from "./postit";
+import { Day } from '../models/Day';
+import {Postit} from "../models/postit";
 
 @Component({
   selector: 'app-postit',
@@ -11,7 +11,6 @@ export class PostitComponent {
   currentMonth = new Date().getMonth();
   currentYear = new Date().getFullYear();
   startOfWeek = 0; // Define startOfWeek at the class level
-  postitElements: HTMLElement[] = []; // Store references to the dynamically created elements
   postits : Postit[] = [];
 
 
@@ -32,15 +31,8 @@ export class PostitComponent {
   }
 
 
-
   delete(id : number) {
     this.postits = this.postits.filter(p => p.id !== id);
-  }
-
-  toggleSelection(postit: HTMLElement) {
-    // Toggle selection state by adding/removing a class
-    postit.classList.toggle('selected');
-    console.log('Post-it toggled:', postit);
   }
 
   nextMonth() {
@@ -60,10 +52,7 @@ export class PostitComponent {
     }
     console.log('Previous month button clicked. New month:', this.currentMonth + 1, 'Year:', this.currentYear);
   }
-
-  get days(): Day[] {
-    return this.getDaysForMonth(this.currentMonth, this.currentYear);
-  }
+  
 
   getDaysForMonth(month: number, year: number): Day[] {
     const days: Day[] = [];
