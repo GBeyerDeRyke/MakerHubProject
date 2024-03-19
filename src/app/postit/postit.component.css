@@ -40,8 +40,8 @@
 }
 
 .example-boundary {
-  width: 1500px;
-  height: 900px;
+  width: 100vw;
+  height: 100vh;
   max-width: 100%;
   border: dotted #ccc 2px;
   position: relative;

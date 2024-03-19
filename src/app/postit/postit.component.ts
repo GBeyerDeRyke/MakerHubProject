@@ -1,5 +1,5 @@
-import { Component, ElementRef } from '@angular/core';
-import { Day } from '../models/Day';
+import {Component, Input} from '@angular/core';
+import {Day} from '../models/Day';
 import {Postit} from "../models/postit";
 
 @Component({
@@ -11,7 +11,9 @@ export class PostitComponent {
   currentMonth = new Date().getMonth();
   currentYear = new Date().getFullYear();
   startOfWeek = 0; // Define startOfWeek at the class level
+  months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   postits : Postit[] = [];
+  @Input() title: string = "";
 
 
   create() {
@@ -29,7 +31,6 @@ export class PostitComponent {
     this.postits.push(postit);
     console.log(postit.createdMonth)
   }
-
 
   delete(id : number) {
     this.postits = this.postits.filter(p => p.id !== id);
@@ -52,7 +53,7 @@ export class PostitComponent {
     }
     console.log('Previous month button clicked. New month:', this.currentMonth + 1, 'Year:', this.currentYear);
   }
-  
+
 
   getDaysForMonth(month: number, year: number): Day[] {
     const days: Day[] = [];
@@ -65,7 +66,6 @@ export class PostitComponent {
         name: date.toLocaleDateString('en-US', { weekday: 'long' }),
         isCurrentMonth: date.getMonth() === month,
         month: this.currentMonth
-
       };
       days.push(day);
     }
@@ -73,7 +73,7 @@ export class PostitComponent {
   }
 
   getWeekdays(): string[] {
-    const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
     return weekdays.slice(this.startOfWeek, weekdays.length).concat(weekdays.slice(0, this.startOfWeek));
   }
 
@@ -91,10 +91,19 @@ export class PostitComponent {
     }
     return weeks;
   }
+
   editTitle(postit: Postit) {
     const newTitle = prompt('Enter new title for the post-it:', postit.title);
     if (newTitle !== null && newTitle !== '') {
       postit.title = newTitle;
     }
   }
+
+  getCurrentMontName(): string {
+    const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    return months[new Date().getMonth()];
+  }
+
+  postitGetDay(){}
+
 }

@@ -12,6 +12,7 @@ export class HomeComponent {
   @Output() deletePostit: EventEmitter<number> = new EventEmitter<number>();
   schedules: {id : number,text: string }[] = [];
   nextId: number = 1;
+  currentScheduleName: string = "";
 
   constructor(private router: Router) {}
 
@@ -38,9 +39,8 @@ export class HomeComponent {
     }
   }
 
-  openPostit(schedule: { id: number }) {
+  openSchedule(schedule: number) {
+    //this.currentScheduleName = schedule.text; // Set the current schedule's name
     this.router.navigate(['/postit']);
   }
-
-
 }

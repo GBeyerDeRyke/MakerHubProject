@@ -3,10 +3,11 @@
 </div>
 
 <div>
-  <div *ngFor="let schedule of schedules; let i = index" class="schedule">
+  <div *ngFor="let schedule of schedules; let i = index" class="schedule" >
     <button class="delete" (click)="deleteSchedule(i)"> X </button>
     <div>
       <span>{{ schedule.text }}</span></div>
       <div><button class="modify" (click)="editScheduleText(i); $event.stopPropagation()">MODIFY</button></div>
+      <div><button class="openSchedule" (click)="openSchedule(i)"> Open </button></div>
   </div>
 </div>
