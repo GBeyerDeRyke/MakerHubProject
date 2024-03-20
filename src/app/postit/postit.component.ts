@@ -1,6 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {Day} from '../models/Day';
 import {Postit} from "../models/postit";
+import {CdkDragMove} from "@angular/cdk/drag-drop";
 
 @Component({
   selector: 'app-postit',
@@ -23,7 +24,8 @@ export class PostitComponent {
       description: 'Languleur',
       x: 300,
       y: 300,
-      createdMonth: this.currentMonth
+      createdMonth: this.currentMonth,
+      dateofDay: new Date()
     };
     while (this.postits.find(p => p.id === postit.id)) {
       postit.id--;
@@ -104,6 +106,21 @@ export class PostitComponent {
     return months[new Date().getMonth()];
   }
 
-  postitGetDay(){}
+  onDragMoved(event : CdkDragMove, id : number ){
+    const x = event.pointerPosition.x
+    const y = event.pointerPosition.y
+    let calendar = document.getElementById('calendar')!.getBoundingClientRect();
 
+    const xcalendar = x-calendar.left;
+    const ycalendar=y-calendar.top;
+
+    /*console.log(xcalendar)
+    console.log(ycalendar)*/
+
+    const largeurCalendar = calendar.width;
+    const hauteurCalendar = calendar.height;
+
+    console.log(largeurCalendar)
+    console.log(hauteurCalendar)
+  }
 }

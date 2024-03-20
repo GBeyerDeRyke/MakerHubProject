@@ -5,4 +5,5 @@ export interface Postit {
   x : number;
   y : number;
   createdMonth: number;
+  dateofDay: Date;
 }
