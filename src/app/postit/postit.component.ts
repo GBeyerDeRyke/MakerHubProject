@@ -106,21 +106,29 @@ export class PostitComponent {
     return months[new Date().getMonth()];
   }
 
-  onDragMoved(event : CdkDragMove, id : number ){
-    const x = event.pointerPosition.x
-    const y = event.pointerPosition.y
-    let calendar = document.getElementById('calendar')!.getBoundingClientRect();
+  onDragMoved(event: CdkDragMove, id: number) {
+    const calendar = document.getElementById('calendar')!.getBoundingClientRect();
+    const cellWidth = calendar.width / 7; // Assuming 7 cells per week
+    const cellHeight = calendar.height / 6; // Assuming 6 rows (may vary depending on weeks)
 
-    const xcalendar = x-calendar.left;
-    const ycalendar=y-calendar.top;
+    const x = event.pointerPosition.x - calendar.left;
+    const y = event.pointerPosition.y - calendar.top;
 
-    /*console.log(xcalendar)
-    console.log(ycalendar)*/
+    const rowIndex = Math.floor(y / cellHeight);
+    const colIndex = Math.floor(x / cellWidth);
 
-    const largeurCalendar = calendar.width;
-    const hauteurCalendar = calendar.height;
+    const weeks = this.getWeeks(this.currentMonth);
+    const targetWeek = weeks[rowIndex];
 
-    console.log(largeurCalendar)
-    console.log(hauteurCalendar)
+    if (targetWeek) {
+      const targetDay = targetWeek[colIndex % 7]; // Considering startOfWeek for indexing
+      if (targetDay) {
+        const postit = this.postits.find(p => p.id === id);
+        if (postit) {
+          postit.dateofDay = targetDay.date;
+          console.log(targetDay.date)
+        }
+      }
+    }
   }
 }
