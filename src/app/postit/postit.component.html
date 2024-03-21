@@ -28,7 +28,11 @@
 
 
   <ng-container *ngFor="let postit of postits">
-    <div *ngIf="postit.createdMonth == currentMonth" [style.transform]="'translate3d('+postit.x+'px, '+postit.y+'px, 300px);'" class="example-box" cdkDragBoundary=".example-boundary" cdkDrag (cdkDragMoved)="onDragMoved($event, postit.id)" (dblclick)="editTitle(postit)">
+    <div *ngIf="postit.createdMonth == currentMonth"
+         [style.left.px]="postit.x" [style.top.px]="postit.y"
+         class="example-box" cdkDragBoundary=".example-boundary" cdkDrag
+         (cdkDragMoved)="onDragMoved($event, postit.id)" (dblclick)="editTitle(postit)"
+         #postitElem>
       {{postit.title}}
       <button class="delete" (click)="delete(postit.id)">X</button>
     </div>

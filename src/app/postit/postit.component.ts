@@ -22,6 +22,14 @@ export class PostitComponent {
     this.recalculatePostitPositions(this.currentMonth, this.currentYear);
   }
 
+  setDynamicTitle() {
+    if (this.postits.length > 0) {
+      this.title = this.postits[0].title;
+    } else {
+      this.title = ""; // Handle case when there are no schedules
+    }
+  }
+
 
   create() {
     const postit: Postit = {
@@ -53,6 +61,7 @@ export class PostitComponent {
     console.log('Next month button clicked. New month:', this.currentMonth + 1, 'Year:', this.currentYear);
     this.getCurrentMontName();
     this.recalculatePostitPositions(this.currentMonth, this.currentYear);
+    this.setDynamicTitle()
   }
 
   previousMonth() {
@@ -64,6 +73,7 @@ export class PostitComponent {
     console.log('Previous month button clicked. New month:', this.currentMonth + 1, 'Year:', this.currentYear);
     this.getCurrentMontName();
     this.recalculatePostitPositions(this.currentMonth, this.currentYear);
+    this.setDynamicTitle()
   }
 
 
@@ -134,6 +144,8 @@ export class PostitComponent {
       if (targetDay) {
         const postit = this.postits.find(p => p.id === id);
         if (postit) {
+          postit.x = x;
+          postit.y = y;
           postit.dateofDay = targetDay.date;
           console.log(targetDay.date)
         }

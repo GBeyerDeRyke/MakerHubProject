@@ -1,9 +1,20 @@
+.left-buttons {
+  margin: 10px;
+  display: flex; /* Add flex display */
+  justify-content: left; /* Horizontally center the buttons */
+}
+
+.schedule-container {
+  display: flex; /* Use flex display for the schedules container */
+  justify-content: left; /* Align schedules to the right */
+  margin-top: 10px; /* Add some top margin */
+}
+
 .schedule {
   position: relative;
   background-color: lightgreen;
   padding: 10px;
   margin: 0 5px; /* Add some margin between schedule divs */
-  display: inline-block;
   border-radius: 5px;
   width: 5vw; /* Set width to 5% of the viewport width */
   height: 5vw; /* Set height equal to width to maintain a square shape */
@@ -11,7 +22,6 @@
   max-width: 300px; /* Set a maximum width for the schedule */
   word-wrap: break-word; /* Allow text to wrap within the container */
 }
-
 
 .schedule .delete {
   position: absolute;
@@ -35,11 +45,11 @@
   cursor: pointer;
 }
 
-.openSchedule{
+.openSchedule {
   position: absolute;
   bottom: 35px; /* Adjust as needed */
   background-color: rgb(253, 251, 251);
-  color : black;
+  color: black;
   padding: 5px 10px;
   border: none;
   border-radius: 3px;
