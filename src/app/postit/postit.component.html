@@ -18,21 +18,20 @@
         <td *ngFor="let i of [].constructor(7 - week.length)"></td>
       </ng-container>
 
-      <td *ngFor="let day of week" [ngClass]="{'current-day': day.isCurrentMonth}">
-      {{ day.date.getDate() }}
-    </td>
+      <td *ngFor="let day of week"
+          [ngClass]="{'current-day': day.isCurrentMonth, 'today': isCurrentDay(day)}">
+        {{ day.date.getDate() }}
+      </td>
     </tr>
     </tbody>
   </table>
 
 
   <ng-container *ngFor="let postit of postits">
-  <div *ngIf="postit.createdMonth == currentMonth" [style.transform]="'translate3d('+postit.x+'px, '+postit.y+'px, 0px);'"
-       class="example-box" cdkDragBoundary=".example-boundary" cdkDrag (cdkDragMoved)="onDragMoved($event, postit.id)" (dblclick)="editTitle(postit)">
+    <div *ngIf="postit.createdMonth == currentMonth" [style.transform]="'translate3d('+postit.x+'px, '+postit.y+'px, 300px);'" class="example-box" cdkDragBoundary=".example-boundary" cdkDrag (cdkDragMoved)="onDragMoved($event, postit.id)" (dblclick)="editTitle(postit)">
       {{postit.title}}
-
-      <button class = delete (click)="delete(postit.id)">X</button>
-  </div>
+      <button class="delete" (click)="delete(postit.id)">X</button>
+    </div>
   </ng-container>
 </div>
 
