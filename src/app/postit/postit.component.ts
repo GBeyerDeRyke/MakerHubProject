@@ -3,6 +3,7 @@ import {Day} from '../models/Day';
 import {Postit} from "../models/postit";
 import {CdkDragMove} from "@angular/cdk/drag-drop";
 
+
 @Component({
   selector: 'app-postit',
   templateUrl: './postit.component.html',
@@ -16,11 +17,6 @@ export class PostitComponent {
   postits : Postit[] = [];
   @Input() title: string = "";
 
-  @HostListener('window:resize', ['$event'])
-  onResize(event: Event) {
-    // Recalculate the position of all post-its
-    this.recalculatePostitPositions(this.currentMonth, this.currentYear);
-  }
 
   setDynamicTitle() {
     if (this.postits.length > 0) {
@@ -60,7 +56,6 @@ export class PostitComponent {
     }
     console.log('Next month button clicked. New month:', this.currentMonth + 1, 'Year:', this.currentYear);
     this.getCurrentMontName();
-    this.recalculatePostitPositions(this.currentMonth, this.currentYear);
     this.setDynamicTitle()
   }
 
@@ -72,7 +67,6 @@ export class PostitComponent {
     }
     console.log('Previous month button clicked. New month:', this.currentMonth + 1, 'Year:', this.currentYear);
     this.getCurrentMontName();
-    this.recalculatePostitPositions(this.currentMonth, this.currentYear);
     this.setDynamicTitle()
   }
 
@@ -147,11 +141,15 @@ export class PostitComponent {
           postit.x = x;
           postit.y = y;
           postit.dateofDay = targetDay.date;
+          const element = event.source.getRootElement();
+          element.style.transform = 'none';
           console.log(targetDay.date)
         }
       }
     }
   }
+
+
   isCurrentDay(day: Day): boolean {
     const currentDate = new Date();
     return day.date.getFullYear() === currentDate.getFullYear() &&
@@ -159,29 +157,4 @@ export class PostitComponent {
       day.date.getDate() === currentDate.getDate();
   }
 
-  recalculatePostitPositions(previousMonth: number, previousYear: number) {
-    const calendar = document.getElementById('calendar')!.getBoundingClientRect();
-    const cellWidth = calendar.width / 7; // Assuming 7 cells per week
-    const cellHeight = calendar.height / 6; // Assuming 6 rows (may vary depending on weeks)
-
-    this.postits.forEach(postit => {
-      // Calculate the ratio of postit position relative to previous month's calendar dimensions
-      const xRatio = postit.x / calendar.width;
-      const yRatio = postit.y / calendar.height;
-
-      // Calculate the position of postit relative to the new month's calendar dimensions
-      postit.x = xRatio * this.getCalendarWidth();
-      postit.y = yRatio * this.getCalendarHeight();
-    });
-  }
-
-  getCalendarWidth(): number {
-    const calendar = document.getElementById('calendar')!;
-    return calendar ? calendar.getBoundingClientRect().width : window.innerWidth;
-  }
-
-  getCalendarHeight(): number {
-    const calendar = document.getElementById('calendar')!;
-    return calendar ? calendar.getBoundingClientRect().height : window.innerHeight;
-  }
 }

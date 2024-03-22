@@ -92,10 +92,10 @@ tr>td {
 .today::after {
   content: '';
   position: absolute;
-  top: 6px;
-  left: 6px;
-  right: 6px;
-  bottom: 6px;
+  top: 0.1px;
+  left: 0.1px;
+  right: 0.1px;
+  bottom: 0.1px;
   border: 2px solid #44e746; /* Red border */
 }
 

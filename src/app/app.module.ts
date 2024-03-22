@@ -10,6 +10,9 @@ import { Page404Component } from './page404/page404.component';
 import { HeaderComponent } from './header/header.component';
 import { LoginComponent } from './login/login.component';
 import {ReactiveFormsModule} from "@angular/forms";
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+
+
 
 @NgModule({
   declarations: [
@@ -30,7 +33,9 @@ import {ReactiveFormsModule} from "@angular/forms";
         DragDropModule
 
     ],
-  providers: [],
+  providers: [
+    provideAnimationsAsync()
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
