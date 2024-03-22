@@ -1,6 +1,6 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import {Router} from "@angular/router";
-import {Schedule} from "../models/schedule";
+import {ScheduleService} from "../services/schedule.service";
 
 @Component({
   selector: 'app-home',
@@ -17,7 +17,7 @@ export class HomeComponent {
   nextId: number = 1;
   currentScheduleName: string = "";
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private scheduleService: ScheduleService) {}
 
 
   createSchedule() {
@@ -43,8 +43,8 @@ export class HomeComponent {
     }
   }
 
-  openSchedule(schedule: number) {
-    //this.currentScheduleName = schedule.text; // Set the current schedule's name
+  openSchedule(schedule: {id: number, text: string}) {
+    this.scheduleService.updateScheduleName(schedule.text);
     this.router.navigate(['/postit']);
   }
 }
