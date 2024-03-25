@@ -1,6 +1,7 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import {Router} from "@angular/router";
 import {ScheduleService} from "../services/schedule.service";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-home',
@@ -17,8 +18,9 @@ export class HomeComponent {
   nextId: number = 1;
   currentScheduleName: string = "";
 
-  constructor(private router: Router, private scheduleService: ScheduleService) {}
 
+
+  constructor(private router: Router, private scheduleService: ScheduleService, private dialog: MatDialog) {}
 
   createSchedule() {
     const text = prompt("Enter schedule text:");
@@ -31,17 +33,17 @@ export class HomeComponent {
     }
   }
 
-  deleteSchedule(id : number) {
-    this.schedules.splice(id, 1);
-  }
-
-
   editScheduleText(index: number) {
     const newText = prompt("Enter new text:");
     if (newText !== null) {
       this.schedules[index].text = newText;
     }
   }
+
+  deleteSchedule(id : number) {
+    this.schedules.splice(id, 1);
+  }
+
 
   openSchedule(schedule: {id: number, text: string}) {
     this.scheduleService.updateScheduleName(schedule.text);

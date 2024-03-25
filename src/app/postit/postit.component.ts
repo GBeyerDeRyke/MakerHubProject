@@ -14,7 +14,7 @@ export class PostitComponent {
   currentYear = new Date().getFullYear();
   startOfWeek = 0; // Define startOfWeek at the class level
   months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-  postits : Postit[] = [];
+  postits: Postit[] = [];
   @Input() title: string = "";
 
 
@@ -44,7 +44,7 @@ export class PostitComponent {
     console.log(postit.createdMonth)
   }
 
-  delete(id : number) {
+  delete(id: number) {
     this.postits = this.postits.filter(p => p.id !== id);
   }
 
@@ -79,7 +79,7 @@ export class PostitComponent {
     for (let date = firstDay; date <= lastDay; date.setDate(date.getDate() + 1)) {
       const day: Day = {
         date: new Date(date),
-        name: date.toLocaleDateString('en-US', { weekday: 'long' }),
+        name: date.toLocaleDateString('en-US', {weekday: 'long'}),
         isCurrentMonth: date.getMonth() === month,
         month: this.currentMonth
       };

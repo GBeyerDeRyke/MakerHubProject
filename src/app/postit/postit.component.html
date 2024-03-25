@@ -1,15 +1,14 @@
-
 <div class="Mois">{{ getCurrentMontName() }}</div>
 <div class="left-buttons">
   <button (click)="create()">CREATE</button>
-  <button (click)="nextMonth()"> > </button>
-  <button (click)="previousMonth()"> < </button>
+  <button (click)="nextMonth()"> ></button>
+  <button (click)="previousMonth()"> <</button>
 </div>
 <div class="example-boundary">
-  <table class="calendar" id = calendar>
+  <table class="calendar" id=calendar>
     <thead>
     <tr>
-      <th *ngFor="let day of getWeekdays()"> {{ day }} </th>
+      <th *ngFor="let day of getWeekdays()"> {{ day }}</th>
     </tr>
     </thead>
     <tbody>
@@ -33,7 +32,7 @@
          class="example-box" cdkDragBoundary=".example-boundary" cdkDrag
          (cdkDragMoved)="onDragMoved($event, postit.id)" (dblclick)="editTitle(postit)"
          #postitElem>
-      {{postit.title}}
+      {{ postit.title }}
       <button class="delete" (click)="delete(postit.id)">X</button>
     </div>
   </ng-container>
