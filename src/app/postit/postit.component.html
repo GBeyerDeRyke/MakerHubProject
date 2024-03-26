@@ -26,7 +26,7 @@
   </table>
 
 
-  <ng-container *ngFor="let postit of postits">
+  <ng-container *ngFor="let postit of this.postitService.postits">
     <div *ngIf="postit.createdMonth == currentMonth"
          [style.left.px]="postit.x" [style.top.px]="postit.y"
          class="example-box" cdkDragBoundary=".example-boundary" cdkDrag

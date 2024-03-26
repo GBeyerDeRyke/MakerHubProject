@@ -2,6 +2,8 @@ import {Component, HostListener, Input} from '@angular/core';
 import {Day} from '../models/Day';
 import {Postit} from "../models/postit";
 import {CdkDragMove} from "@angular/cdk/drag-drop";
+import {PostitService} from "../services/postit.service";
+import {ScheduleService} from "../services/schedule.service";
 
 
 @Component({
@@ -12,15 +14,16 @@ import {CdkDragMove} from "@angular/cdk/drag-drop";
 export class PostitComponent {
   currentMonth = new Date().getMonth();
   currentYear = new Date().getFullYear();
-  startOfWeek = 0; // Define startOfWeek at the class level
+  startOfWeek = 0;
   months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-  postits: Postit[] = [];
   @Input() title: string = "";
+
+  constructor(private readonly _scheduldeService: ScheduleService) {}
 
 
   setDynamicTitle() {
-    if (this.postits.length > 0) {
-      this.title = this.postits[0].title;
+    if (this.postitService.postits.length > 0) {
+      this.title = this.postitService.postits[0].title;
     } else {
       this.title = ""; // Handle case when there are no schedules
     }
@@ -28,24 +31,12 @@ export class PostitComponent {
 
 
   create() {
-    const postit: Postit = {
-      id: -1,
-      title: 'Bob',
-      description: 'Languleur',
-      x: 500,
-      y: 500,
-      createdMonth: this.currentMonth,
-      dateofDay: new Date()
-    };
-    while (this.postits.find(p => p.id === postit.id)) {
-      postit.id--;
-    }
-    this.postits.push(postit);
-    console.log(postit.createdMonth)
+    let id = 1
+    this._scheduldeService.createPostit(id, this.currentMonth)
   }
 
   delete(id: number) {
-    this.postits = this.postits.filter(p => p.id !== id);
+    this.postitService.postits = this.postitService.postits.filter(p => p.id !== id);
   }
 
   nextMonth() {
@@ -136,7 +127,7 @@ export class PostitComponent {
     if (targetWeek) {
       const targetDay = targetWeek[colIndex % 7]; // Considering startOfWeek for indexing
       if (targetDay) {
-        const postit = this.postits.find(p => p.id === id);
+        const postit = this._scheduldeService.findPostit(p => p.id === id);
         if (postit) {
           postit.x = x;
           postit.y = y;
@@ -144,10 +135,12 @@ export class PostitComponent {
           const element = event.source.getRootElement();
           element.style.transform = 'none';
           console.log(targetDay.date)
+          this._scheduldeService.updatePostitPosition(id, { x, y });
         }
       }
     }
   }
+
 
 
   isCurrentDay(day: Day): boolean {
