@@ -49,12 +49,10 @@
 }
 
 .left-buttons {
-
-  z-index: 1; /* Add this line */
-}
-
-.left-buttons button {
   margin-bottom: 10px;
+  display: flex;
+  justify-content: center; /* Center items horizontally */
+  align-items: center; /* Center items vertically */
 }
 
 .calendar {
@@ -83,6 +81,7 @@ tr > td {
   font-family: Verdana, Geneva, sans-serif; /* Use Verdana font, fallback to sans-serif */
   color: #04AA6D;
   margin: auto;
+  padding: 30px 0; /* Increase padding to make the div bigger */
 }
 
 .today {
