@@ -2,6 +2,7 @@ import { Component, Output, EventEmitter } from '@angular/core';
 import {Router} from "@angular/router";
 import {ScheduleService} from "../services/schedule.service";
 import {MatDialog} from "@angular/material/dialog";
+import {Schedule} from "../models/schedule";
 
 @Component({
   selector: 'app-home',
@@ -11,42 +12,32 @@ import {MatDialog} from "@angular/material/dialog";
 export class HomeComponent {
   @Output() createPostit: EventEmitter<void> = new EventEmitter<void>();
   @Output() deletePostit: EventEmitter<number> = new EventEmitter<number>();
-  schedules: {id : number,text: string }[] = [
-    {id:1, text: "Quoi" },
-    {id:2, text: "Cou" },
-    {id:3, text: "Beh" }];
-  nextId: number = 1;
-  currentScheduleName: string = "";
+  schedules: Schedule[] = []
 
 
 
-  constructor(private router: Router, private scheduleService: ScheduleService, private dialog: MatDialog) {}
+  constructor(private router: Router, private scheduleService: ScheduleService, private dialog: MatDialog) {
+    this.schedules = scheduleService.schedules
+  }
 
   createSchedule() {
-    const text = prompt("Enter schedule text:");
-    if (text !== null) {
-      const schedule = {
-        id: this.nextId++,
-        text: text
-      };
-      this.schedules.push(schedule);
-    }
+   this.scheduleService.createSchedule()
   }
 
   editScheduleText(index: number) {
     const newText = prompt("Enter new text:");
     if (newText !== null) {
-      this.schedules[index].text = newText;
+     this.scheduleService.editScheduleText(index,newText)
     }
   }
 
   deleteSchedule(id : number) {
-    this.schedules.splice(id, 1);
+    this.scheduleService.deleteSchedule(id)
   }
 
 
-  openSchedule(schedule: {id: number, text: string}) {
-    this.scheduleService.updateScheduleName(schedule.text);
-    this.router.navigate(['/postit']);
+  openSchedule(id : number) {
+    this.scheduleService.updateScheduleName(this.scheduleService.getScheduleById(id)!.title);
+    this.router.navigate(['/postit/'+ id]);
   }
 }

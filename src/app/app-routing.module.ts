@@ -7,7 +7,7 @@ import {LoginComponent} from "./login/login.component";
 
 const routes: Routes = [
   {path:'home', component:HomeComponent},
-  {path:'postit', component:PostitComponent},
+  {path:'postit/:id', component:PostitComponent},
   {path:'login', component:LoginComponent},
   {path:'404', component: Page404Component},
   {path:'**', redirectTo:'404'}

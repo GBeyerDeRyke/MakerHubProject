@@ -3,6 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 import {Postit} from "../models/postit";
 import {Schedule} from "../models/schedule";
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -15,10 +16,6 @@ export class ScheduleService {
 
   constructor() { }
 
-  updateScheduleName(name: string) {
-    this.selectedSchedule.next(name);
-  }
-
   createPostit(idSchedule : number, currentMonth: number ){
     const postit: Postit = {
       id: this.findNextPostitId(),
@@ -29,16 +26,25 @@ export class ScheduleService {
       createdMonth: currentMonth,
       dateofDay: new Date()
     };
-    let schedudule = this.schedules.find(s => s.id === idSchedule)
+    console.log(idSchedule)
+    let schedudule = this.schedules.find(s => s.id == idSchedule)
+    console.log(schedudule)
     if(schedudule){
       schedudule.postits.push(postit)
+    }
+  }
+
+  deletePostit(scheduleId: number, postId: number) {
+    const schedule = this.getScheduleById(scheduleId);
+    if (schedule) {
+      schedule.postits = schedule.postits.filter(postit => postit.id !== postId);
     }
   }
 
   private findNextPostitId():number{
     let allPostit : Postit[] = this.getAllPostit()
     let id =1;
-    while (allPostit.find(p => p.id === id)) {
+    while (allPostit.find(p => p.id == id)) {
       id++;
     }
     return id
@@ -55,7 +61,7 @@ export class ScheduleService {
 
   findPostitById(idPostit : number): Postit|undefined{
     let postits = this.getAllPostit()
-    return postits.find(p => p.id === idPostit)
+    return postits.find(p => p.id == idPostit)
   }
 
   private getAllPostit(): Postit[] {
@@ -65,7 +71,13 @@ export class ScheduleService {
   }
 
   getAllPostitBySchedule(idSchedule : number): Postit[]|undefined{
-    return this.schedules.find(p => p.id === idSchedule)?.postits
+    return this.schedules.find(p => p.id == idSchedule)?.postits
+  }
+
+  editTitle(id:number,text:string){
+    let postitTemp = this.findPostitById(id)
+    if(postitTemp)
+      postitTemp.title = text
   }
 
   // Schedules----------------------------------------------------
@@ -75,26 +87,33 @@ export class ScheduleService {
     if (text !== null) {
       const schedule = {
         id: this.nextId++,
-        text: text
+        title: text,
+        postits: []
       };
       this.schedules.push(schedule);
     }
   }
 
-  editScheduleText(index: number) {
-    const newText = prompt("Enter new text:");
-    if (newText !== null) {
-      this.schedules[index].text = newText;
+  editScheduleText(id: number, title: string) {
+  let scheduleToUpdate = this.getScheduleById(id);
+  if(scheduleToUpdate)
+    scheduleToUpdate.title = title;
+  }
+
+  getScheduleById(id:number){
+    console.log(this.schedules)
+    return this.schedules.find(p => p.id == id)
+  }
+
+  deleteSchedule(id: number) {
+    const index = this.schedules.findIndex(schedule => schedule.id === id);
+    if (index !== -1) {
+      this.schedules.splice(index, 1);
     }
   }
 
-  deleteSchedule(id : number) {
-    this.schedules.splice(id, 1);
+  updateScheduleName(name: string) {
+    this.selectedSchedule.next(name);
   }
 
-
-  openSchedule(schedule: {id: number, text: string}) {
-    this.scheduleService.updateScheduleName(schedule.text);
-    this.router.navigate(['/postit']);
-  }
 }

@@ -3,6 +3,8 @@ import {Day} from '../models/Day';
 import {Postit} from "../models/postit";
 import {CdkDragMove} from "@angular/cdk/drag-drop";
 import {ScheduleService} from "../services/schedule.service";
+import {Schedule} from "../models/schedule";
+import {ActivatedRoute} from "@angular/router";
 
 
 @Component({
@@ -16,13 +18,16 @@ export class PostitComponent {
   startOfWeek = 0;
   months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   @Input() title: string = "";
+  schedule?: Schedule
 
-  constructor(protected readonly _scheduldeService: ScheduleService) {}
+  constructor(protected readonly _scheduldeService: ScheduleService, private readonly _activatedRoute : ActivatedRoute) {
+    this.refresh()
+  }
 
 
   setDynamicTitle() {
-    if (this._scheduldeService.postits.length > 0) {
-      this.title = this._scheduldeService.postits[0].title;
+    if (this.schedule && this.schedule.postits.length > 0) {
+      this.title = this.schedule.postits[0].title;
     } else {
       this.title = ""; // Handle case when there are no schedules
     }
@@ -30,12 +35,22 @@ export class PostitComponent {
 
 
   create() {
-    let id = 1
-    this._scheduldeService.createPostit(id, this.currentMonth)
+    console.log(this.schedule)
+    if(this.schedule)
+    this._scheduldeService.createPostit(this.schedule.id, this.currentMonth)
+    this.refresh()
+  }
+
+  refresh(){
+    console.log(this._activatedRoute.snapshot.params['id'])
+    this.schedule = this._scheduldeService.getScheduleById(this._activatedRoute.snapshot.params['id'])
   }
 
   delete(id: number) {
-    this._scheduldeService.postits = this._scheduldeService.postits.filter(p => p.id !== id);
+    if (this.schedule) {
+      this._scheduldeService.deletePostit(this.schedule.id, id);
+      this.refresh();
+    }
   }
 
   nextMonth() {
@@ -101,7 +116,7 @@ export class PostitComponent {
   editTitle(postit: Postit) {
     const newTitle = prompt('Enter new title for the post-it:', postit.title);
     if (newTitle !== null && newTitle !== '') {
-      postit.title = newTitle;
+      this._scheduldeService.editTitle(postit.id, newTitle);
     }
   }
 

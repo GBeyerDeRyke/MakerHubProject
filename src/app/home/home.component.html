@@ -3,16 +3,16 @@
 </div>
 
 <div class="schedule-container">
-  <div *ngFor="let schedule of schedules; let i = index" class="schedule">
-    <button class="delete" (click)="deleteSchedule(i)"> X </button>
+  <div *ngFor="let schedule of schedules" class="schedule">
+    <button class="delete" (click)="deleteSchedule(schedule.id)"> X </button>
     <div>
-      <span>{{ schedule.text }}</span>
+      <span>{{ schedule.title }}</span>
     </div>
     <div>
-      <button class="modify" (click)="editScheduleText(i); $event.stopPropagation()">MODIFY</button>
+      <button class="modify" (click)="editScheduleText(schedule.id); $event.stopPropagation()">MODIFY</button>
     </div>
     <div>
-      <button class="openSchedule" (click)="openSchedule(schedule)"> Open </button>
+      <button class="openSchedule" (click)="openSchedule(schedule.id)"> Open </button>
     </div>
   </div>
 </div>
