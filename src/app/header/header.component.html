@@ -1,5 +1,5 @@
 <div class="topnav">
   <a routerLink="/home" routerLinkActive="active">Home</a>
-  <a *ngIf="selectedScheduleName !== ''" routerLink="/postit" routerLinkActive="active">{{ selectedScheduleName }}</a>
+  <a *ngIf="selectedScheduleName !== ''" routerLink='postit/:id' routerLinkActive="active">{{ selectedScheduleName }}</a>
   <a routerLink="/login" routerLinkActive="active" class="log">Login</a>
 </div>
