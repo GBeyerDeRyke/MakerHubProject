@@ -2,7 +2,6 @@ import {Component, HostListener, Input} from '@angular/core';
 import {Day} from '../models/Day';
 import {Postit} from "../models/postit";
 import {CdkDragMove} from "@angular/cdk/drag-drop";
-import {PostitService} from "../services/postit.service";
 import {ScheduleService} from "../services/schedule.service";
 
 
@@ -18,12 +17,12 @@ export class PostitComponent {
   months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   @Input() title: string = "";
 
-  constructor(private readonly _scheduldeService: ScheduleService) {}
+  constructor(protected readonly _scheduldeService: ScheduleService) {}
 
 
   setDynamicTitle() {
-    if (this.postitService.postits.length > 0) {
-      this.title = this.postitService.postits[0].title;
+    if (this._scheduldeService.postits.length > 0) {
+      this.title = this._scheduldeService.postits[0].title;
     } else {
       this.title = ""; // Handle case when there are no schedules
     }
@@ -36,7 +35,7 @@ export class PostitComponent {
   }
 
   delete(id: number) {
-    this.postitService.postits = this.postitService.postits.filter(p => p.id !== id);
+    this._scheduldeService.postits = this._scheduldeService.postits.filter(p => p.id !== id);
   }
 
   nextMonth() {
@@ -110,6 +109,8 @@ export class PostitComponent {
     return this.months[this.currentMonth];
   }
 
+
+
   onDragMoved(event: CdkDragMove, id: number) {
     const calendar = document.getElementById('calendar')!.getBoundingClientRect();
     const cellWidth = calendar.width / 7; // Assuming 7 cells per week
@@ -127,16 +128,9 @@ export class PostitComponent {
     if (targetWeek) {
       const targetDay = targetWeek[colIndex % 7]; // Considering startOfWeek for indexing
       if (targetDay) {
-        const postit = this._scheduldeService.findPostit(p => p.id === id);
-        if (postit) {
-          postit.x = x;
-          postit.y = y;
-          postit.dateofDay = targetDay.date;
-          const element = event.source.getRootElement();
-          element.style.transform = 'none';
-          console.log(targetDay.date)
-          this._scheduldeService.updatePostitPosition(id, { x, y });
-        }
+        const element = event.source.getRootElement();
+        element.style.transform = 'none';
+        this._scheduldeService.updatePostitPosition(id, { x, y }, targetDay.date);
       }
     }
   }
